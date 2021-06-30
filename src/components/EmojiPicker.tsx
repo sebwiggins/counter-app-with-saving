@@ -4,7 +4,7 @@ export default function EmojiPicker(): JSX.Element {
   const [emojiValueFromCurrentRender, queueRerenderWithNewEmojiValue] =
     useState(String);
   const [favouriteValueFromCurrentRender, queueRerenderWithNewFavouriteValue] =
-    useState(String);
+    useState<string[]>([]);
 
   const handleHappyEmoji = () => {
     queueRerenderWithNewEmojiValue("😀");
@@ -23,13 +23,17 @@ export default function EmojiPicker(): JSX.Element {
   };
 
   const handleStoreCurrentCount = () => {
-    queueRerenderWithNewFavouriteValue(emojiValueFromCurrentRender+favouriteValueFromCurrentRender);
+      queueRerenderWithNewFavouriteValue([...favouriteValueFromCurrentRender,emojiValueFromCurrentRender])
   };
-
+console.log(favouriteValueFromCurrentRender)
   return (
     <>
-      <h1>Number picker</h1>
-      <p>Your mood combo: {favouriteValueFromCurrentRender}</p>
+      <h1>Emoji picker</h1>
+      <p>Your Emoji History: {favouriteValueFromCurrentRender.map((emoji, index) => {
+        console.log(emoji)
+        return <li key={index}>{emoji}</li>
+      })
+      }</p>
       <p>Current mood: {emojiValueFromCurrentRender}</p>
       <button onClick={handleSadEmoji}>😢</button>
       <button onClick={handleHappyEmoji}>😀</button>
